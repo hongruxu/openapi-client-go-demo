@@ -71,25 +71,3 @@ check-env:
 	else \
 		echo "✗ 未找到 JAR 文件: $(JAR_FILE)"; \
 	fi
-
-
-
-
-
-# OpenAPIDoc := http://114.132.58.71:9999/api-docs/account
-
-# stubFile :=
-# stub:
-# 	java -jar ./tools/swagger-codegen-cli.jar generate \
-# 	-i ${OpenAPIDoc} \
-# 	-l go \
-# 	-o ./swagger/ 
-# build:
-# 	go build
-
-# buildall:
-# 	java -jar ./tools/swagger-codegen-cli.jar generate \
-# 	-i ${OpenAPIDoc} \
-# 	-l go \
-# 	-o ./swagger/ 
-# 	go build
