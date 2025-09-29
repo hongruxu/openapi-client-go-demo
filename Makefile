@@ -50,9 +50,9 @@ help:
 # 检查环境
 check-env:
 	@echo "检查构建环境..."
-	@if [ -d "$(GO_SOURCE_DIR)" ]; then \
-		echo "✓ 找到目录: $(GO_SOURCE_DIR)"; \
-		if [ -n "$$(find "$(GO_SOURCE_DIR)" -name '*.go' -type f | head -n 1)" ]; then \
+	@if [ -d "$(GO_STUB_DIR)" ]; then \
+		echo "✓ 找到目录: $(GO_STUB_DIR)"; \
+		if [ -n "$$(find "$(GO_STUB_DIR)" -name '*.go' -type f | head -n 1)" ]; then \
 			echo "✓ 找到 .go 文件"; \
 			echo "环境: 适合 Go 构建"; \
 		else \
@@ -60,7 +60,7 @@ check-env:
 			echo "环境: 适合 Java 构建"; \
 		fi; \
 	else \
-		echo "✗ 未找到目录: $(GO_SOURCE_DIR)"; \
+		echo "✗ 未找到目录: $(GO_STUB_DIR)"; \
 		echo "环境: 适合 Java 构建"; \
 	fi
 	@if [ -f "$(JAR_FILE)" ]; then \
