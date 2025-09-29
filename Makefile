@@ -1,9 +1,9 @@
 # 定义变量
-GO_SOURCE_DIR := swagger
+GO_STUB_DIR := swagger
 JAR_FILE := ./tools/swagger-codegen-cli.jar
 BUILD_TARGET := build
 OPENAPI_DOC := http://114.132.58.71:9999/api-docs/user
-
+OUT_FILE := openapi-client-go-demo
 .PHONY: all $(BUILD_TARGET) 
 
 # 默认目标
@@ -11,13 +11,13 @@ all: $(BUILD_TARGET)
 
 # 主要构建目标
 $(BUILD_TARGET):
-	@if [ -d "$(GO_SOURCE_DIR)" ] && [ -n "$$(find "$(GO_SOURCE_DIR)" -name '*.go' -type f | head -n 1)" ]; then \
-		echo "检测到 $(GO_SOURCE_DIR) 目录且包含 .go 文件，执行 Go 构建..."; \
-		go build ; \
+	@if [ -d "$(GO_STUB_DIR)" ] && [ -n "$$(find "$(GO_STUB_DIR)" -name '*.go' -type f | head -n 1)" ]; then \
+		echo "检测到 $(GO_STUB_DIR) 目录且包含 .go 文件，执行 Go 构建..."; \
+		go build -o ${OUT_FILE}; \
 	else \
-		echo "未检测到 $(GO_SOURCE_DIR) 目录或 .go 文件，执行 Java 构建..."; \
+		echo "未检测到 $(GO_STUB_DIR) 目录或 .go 文件，执行 Java 构建..."; \
 		$(MAKE) java-build; \
-		go build ; \
+		go build -o ${OUT_FILE}; \
 	fi
 
 # Java 构建目标
@@ -26,19 +26,16 @@ java-build:
 	java -jar $(JAR_FILE) generate \
 	-i ${OPENAPI_DOC} \
  	-l go \
- 	-o ./swagger/ 
+ 	-o ./${GO_STUB_DIR}/ 
 
 # 清理目标
 clean:
 	@echo "清理构建文件..."
-	@if [ -f "$(JAR_FILE)" ]; then \
-		rm -f $(JAR_FILE); \
+	@if [ -d "$(GO_STUB_DIR)" ]; then \
+		rm -rf -d $(GO_STUB_DIR); \
 	fi
-	@if [ -f "main" ]; then \
-		rm -f main; \
-	fi
-	@if [ -f "*.exe" ]; then \
-		rm -f *.exe; \
+	@if [ -f "${OUT_FILE}" ]; then \
+		rm -f ${OUT_FILE}; \
 	fi
 
 # 显示帮助信息
